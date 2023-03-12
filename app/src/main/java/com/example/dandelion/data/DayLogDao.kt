@@ -17,6 +17,6 @@ interface DayLogDao {
     @Query("SELECT * from dayLog WHERE id = :id")
     fun getLog(id: Int): Flow<DayLog>
 
-    @Query("SELECT * from dayLog ORDER BY id DESC")
+    @Query("SELECT * from dayLog ORDER BY date DESC")
     fun getAllLogs(): Flow<List<DayLog>>
 }

@@ -88,7 +88,7 @@ fun TabLayout(
             )
             Tab(
                 selected = currentScreen==LogHistoryDestination,
-                onClick = { onTabSelected(HomeDestination) },
+                onClick = { onTabSelected(LogHistoryDestination) },
                 text = { Text(LogHistoryDestination.route) }
             )
         }

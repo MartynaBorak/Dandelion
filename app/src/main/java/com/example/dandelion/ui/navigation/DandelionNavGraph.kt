@@ -27,7 +27,8 @@ fun DandelionNavHost(
         composable(route = HomeDestination.route){
             HomeScreen(
                 onTabSelected = { newScreen -> navController.navigate(newScreen.route).also{ currentScreen=newScreen } },
-                currentScreen = currentScreen
+                currentScreen = currentScreen,
+                navigateToLogEntry = { navController.navigate(LogEntryDestination.route) }
             )
         }
         composable(route = LogEntryDestination.route){
