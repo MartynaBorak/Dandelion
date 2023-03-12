@@ -32,7 +32,9 @@ fun DandelionNavHost(
             )
         }
         composable(route = LogEntryDestination.route){
-            LogEntryScreen()
+            LogEntryScreen(
+                onNavigateUp = { navController.navigateUp() }
+            )
         }
         composable(route = LogHistoryDestination.route){
             LogHistoryScreen(

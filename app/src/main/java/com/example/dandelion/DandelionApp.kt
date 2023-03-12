@@ -14,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.dandelion.ui.theme.LightOrange
 import com.example.dandelion.ui.navigation.DandelionNavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.getValue
@@ -56,8 +55,7 @@ fun DandelionTopAppBar(
                 }
             },
             modifier = modifier,
-            backgroundColor = LightOrange,
-            contentColor = Color.White
+            backgroundColor = MaterialTheme.colors.primary
         )
         Row {
             TabLayout(
@@ -78,8 +76,7 @@ fun TabLayout(
     TabRow(
         modifier = Modifier.fillMaxWidth(),
         selectedTabIndex = allScreens.indexOf(currentScreen),
-        backgroundColor = LightOrange,
-        contentColor = Color.White,
+        backgroundColor = MaterialTheme.colors.primary,
         tabs = {
             Tab(
                 selected = currentScreen==HomeDestination,
