@@ -11,7 +11,6 @@ data class DayLog (
     val date: Date,
     val energy: Int,
     val happiness: Int,
-    val anger: Int,
     val stress: Int,
     val sleep: Int,
     val period: Boolean,

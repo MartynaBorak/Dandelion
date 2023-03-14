@@ -33,7 +33,7 @@ fun DandelionNavHost(
         }
         composable(route = LogEntryDestination.route){
             LogEntryScreen(
-                onNavigateUp = { navController.navigateUp() }
+                navigateBack = {navController.popBackStack() }
             )
         }
         composable(route = LogHistoryDestination.route){

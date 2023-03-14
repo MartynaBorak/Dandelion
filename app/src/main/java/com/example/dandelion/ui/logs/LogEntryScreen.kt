@@ -2,23 +2,27 @@ package com.example.dandelion.ui.logs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.text.*
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.dandelion.ui.AppViewModelProvider
 import com.example.dandelion.ui.navigation.NavigationDestination
 import com.example.dandelion.ui.theme.DandelionTheme
+import kotlinx.coroutines.launch
 
 object LogEntryDestination : NavigationDestination {
     override val route = "entry"
@@ -26,19 +30,32 @@ object LogEntryDestination : NavigationDestination {
 
 @Composable
 fun LogEntryScreen(
-    onNavigateUp: () -> Unit,
-    modifier: Modifier = Modifier
+    navigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: LogEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ){
-    LogInputForm(onNavigateUp)
+    val coroutineScope = rememberCoroutineScope()
+    LogInputForm(
+        logUiState = viewModel.logUiState,
+        onLogValueChange = viewModel::updateUiState,
+        onSaveClick = {
+            coroutineScope.launch {
+                viewModel.saveLog()
+                navigateBack()
+            }
+        },
+        navigateBack = navigateBack
+    )
 }
 
 @Composable
 fun LogInputForm(
-    onNavigateUp: () -> Unit
+    logUiState: LogUiState,
+    onLogValueChange: (LogUiState) -> Unit,
+    onSaveClick: () -> Unit,
+    navigateBack: () -> Unit,
+    modifier: Modifier = Modifier
 ){
-    var period by remember { mutableStateOf(false) }
-    var journal by remember { mutableStateOf("") }
-
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -51,15 +68,164 @@ fun LogInputForm(
             modifier = Modifier
                 .padding(8.dp)
         ) {
-            Text("Day of week, dd mmm yyyy", fontSize = 20.sp)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                OutlinedTextField(
+                    value = logUiState.day,
+                    onValueChange = { onLogValueChange(logUiState) },
+                    label = { Text("Day") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    modifier = Modifier.width(50.dp)
+                )
+                OutlinedTextField(
+                    value = logUiState.month,
+                    onValueChange = { onLogValueChange(logUiState) },
+                    label = { Text("Month") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    modifier = Modifier.width(50.dp)
+                )
+                OutlinedTextField(
+                    value = logUiState.year,
+                    onValueChange = { onLogValueChange(logUiState) },
+                    label = { Text("Year") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    modifier = Modifier.width(80.dp)
+                )
+                Text(text = logUiState.dateString, fontSize = 18.sp)
+            }
             Spacer(modifier = Modifier.height(4.dp))
             Divider()
 
-            ParameterWithSlider(title = "Energy")
-            ParameterWithSlider(title = "Happiness")
-            ParameterWithSlider(title = "Anger")
-            ParameterWithSlider(title = "Stress")
-            ParameterWithSlider(title = "Sleep quality")
+        //ParameterWithSlider(title = "Energy")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Energy: ", fontSize = 18.sp)
+                Text(
+                    text = logUiState.energy.toString(),
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colors.primary,
+                            shape = RoundedCornerShape(2.dp)
+                        )
+                        .padding(2.dp)
+                )
+            }
+            Slider(
+                value = logUiState.energy,
+                onValueChange = { onLogValueChange(logUiState) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = true,
+                steps = 4,
+                valueRange = 1f..5f,
+                onValueChangeFinished = {}
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+        //ParameterWithSlider(title = "Happiness")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Happiness: ", fontSize = 18.sp)
+                Text(
+                    text = logUiState.happiness.toString(),
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colors.primary,
+                            shape = RoundedCornerShape(2.dp)
+                        )
+                        .padding(2.dp)
+                )
+            }
+            Slider(
+                value = logUiState.happiness,
+                onValueChange = { onLogValueChange(logUiState) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = true,
+                steps = 4,
+                valueRange = 1f..5f,
+                onValueChangeFinished = {}
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+        //ParameterWithSlider(title = "Stress")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Stress: ", fontSize = 18.sp)
+                Text(
+                    text = logUiState.stress.toString(),
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colors.primary,
+                            shape = RoundedCornerShape(2.dp)
+                        )
+                        .padding(2.dp)
+                )
+            }
+            Slider(
+                value = logUiState.stress,
+                onValueChange = { onLogValueChange(logUiState) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = true,
+                steps = 4,
+                valueRange = 1f..5f,
+                onValueChangeFinished = {}
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+        //ParameterWithSlider(title = "Sleep quality")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Sleep quality: ", fontSize = 18.sp)
+                Text(
+                    text = logUiState.sleep.toString(),
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colors.primary,
+                            shape = RoundedCornerShape(2.dp)
+                        )
+                        .padding(2.dp)
+                )
+            }
+            Slider(
+                value = logUiState.sleep,
+                onValueChange = { onLogValueChange(logUiState) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = true,
+                steps = 4,
+                valueRange = 1f..5f,
+                onValueChangeFinished = {}
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             Divider()
 
             Row(
@@ -71,8 +237,9 @@ fun LogInputForm(
             ){
                 Text("Period")
                 Checkbox(
-                    checked = period,
-                    onCheckedChange = { period = it })
+                    checked = logUiState.period,
+                    onCheckedChange = { onLogValueChange(logUiState) }
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -80,11 +247,11 @@ fun LogInputForm(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                value = journal,
-                onValueChange = { journal = it },
+                value = logUiState.journal,
+                onValueChange = { onLogValueChange(logUiState) },
                 enabled = true,
                 singleLine = false,
-                maxLines = 10,
+                maxLines = 4,
                 label = { Text("Journal") }
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -96,14 +263,14 @@ fun LogInputForm(
                 verticalArrangement = Arrangement.SpaceAround
             ){
                 Button(
-                    onClick = {},
-                    enabled = true,
+                    onClick = onSaveClick,
+                    enabled = logUiState.actionEnabled,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Save")
                 }
                 OutlinedButton(
-                    onClick = onNavigateUp,
+                    onClick = navigateBack,
                     enabled = true,
                     modifier = Modifier.fillMaxWidth()
                 ){
@@ -114,46 +281,10 @@ fun LogInputForm(
     }
 }
 
-@Composable
-fun ParameterWithSlider(
-    title: String
-){
-    var position by remember { mutableStateOf(3f) }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
-    ){
-        Text(text = "$title: ", fontSize = 18.sp)
-        Text(
-            text = position.toInt().toString(),
-            fontSize = 18.sp,
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colors.primary,
-                    shape = RoundedCornerShape(2.dp)
-                )
-                .padding(2.dp)
-        )
-    }
-    Slider(
-        value = position,
-        onValueChange = { position = it },
-        modifier = Modifier.fillMaxWidth(),
-        enabled = true,
-        steps = 4,
-        valueRange = 1f..5f,
-        onValueChangeFinished = {}
-    )
-    Spacer(modifier = Modifier.height(4.dp))
-}
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun EntryLogPreview(){
     DandelionTheme {
-        LogEntryScreen(onNavigateUp = {})
+        LogEntryScreen(navigateBack = {})
     }
 }
