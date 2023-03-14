@@ -70,6 +70,7 @@ fun LogInputForm(
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)

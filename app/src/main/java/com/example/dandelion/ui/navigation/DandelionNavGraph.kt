@@ -7,8 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.dandelion.ui.home.HomeDestination
 import com.example.dandelion.ui.home.HomeScreen
 import com.example.dandelion.ui.logs.*
@@ -39,11 +41,22 @@ fun DandelionNavHost(
         composable(route = LogHistoryDestination.route){
             LogHistoryScreen(
                 onTabSelected = { newScreen -> navController.navigate(newScreen.route).also { currentScreen=newScreen } },
-                currentScreen = currentScreen
+                currentScreen = currentScreen,
+                navigateToDetails = {
+                    navController.navigate("${LogDetailsDestination.route}/${it}")
+                }
             )
         }
-        composable(route = LogDetailsDestination.route){
-            LogDetailsScreen()
+        composable(
+            route = LogDetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(LogDetailsDestination.logIdArg) {
+                type = NavType.IntType
+            })
+        ){
+            LogDetailsScreen(
+                navigateBack = {navController.popBackStack()},
+                navigateToEdit = {}
+            )
         }
         composable(route = LogEditDestination.route){
             LogEditScreen()

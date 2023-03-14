@@ -56,12 +56,12 @@ fun LogUiState.isDateValid() : Boolean {
     return true
 }
 
-private fun convertToDate(dateString: String): Date {
+fun convertToDate(dateString: String): Date {
     val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return format.parse(dateString)!!
 }
 
-private fun convertToString(date: Date): String {
+fun convertToString(date: Date): String {
     val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return format.format(date)
 }
