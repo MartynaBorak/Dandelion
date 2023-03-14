@@ -28,3 +28,6 @@ object AppViewModelProvider {
         //
     }
 }
+
+fun CreationExtras.DandelionApplication(): DandelionApplication =
+    (this[AndroidViewModelFactory.APPLICATION_KEY] as DandelionApplication)

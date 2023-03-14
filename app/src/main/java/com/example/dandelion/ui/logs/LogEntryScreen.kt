@@ -76,27 +76,27 @@ fun LogInputForm(
             ) {
                 OutlinedTextField(
                     value = logUiState.day,
-                    onValueChange = { onLogValueChange(logUiState) },
+                    onValueChange = { onLogValueChange(logUiState.copy(day=it)) },
                     label = { Text("Day") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier.width(50.dp)
+                    modifier = Modifier.width(80.dp)
                 )
                 OutlinedTextField(
                     value = logUiState.month,
-                    onValueChange = { onLogValueChange(logUiState) },
+                    onValueChange = { onLogValueChange(logUiState.copy(month=it)) },
                     label = { Text("Month") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier.width(50.dp)
+                    modifier = Modifier.width(80.dp)
                 )
                 OutlinedTextField(
                     value = logUiState.year,
-                    onValueChange = { onLogValueChange(logUiState) },
+                    onValueChange = { onLogValueChange(logUiState.copy(year=it)) },
                     label = { Text("Year") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier.width(80.dp)
+                    modifier = Modifier.width(110.dp)
                 )
                 Text(text = logUiState.dateString, fontSize = 18.sp)
             }
@@ -113,7 +113,7 @@ fun LogInputForm(
             ){
                 Text(text = "Energy: ", fontSize = 18.sp)
                 Text(
-                    text = logUiState.energy.toString(),
+                    text = logUiState.energy.toInt().toString(),
                     fontSize = 18.sp,
                     modifier = Modifier
                         .background(
@@ -125,7 +125,7 @@ fun LogInputForm(
             }
             Slider(
                 value = logUiState.energy,
-                onValueChange = { onLogValueChange(logUiState) },
+                onValueChange = { onLogValueChange(logUiState.copy(energy = it)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = true,
                 steps = 4,
@@ -144,7 +144,7 @@ fun LogInputForm(
             ){
                 Text(text = "Happiness: ", fontSize = 18.sp)
                 Text(
-                    text = logUiState.happiness.toString(),
+                    text = logUiState.happiness.toInt().toString(),
                     fontSize = 18.sp,
                     modifier = Modifier
                         .background(
@@ -156,7 +156,7 @@ fun LogInputForm(
             }
             Slider(
                 value = logUiState.happiness,
-                onValueChange = { onLogValueChange(logUiState) },
+                onValueChange = { onLogValueChange(logUiState.copy(happiness = it)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = true,
                 steps = 4,
@@ -175,7 +175,7 @@ fun LogInputForm(
             ){
                 Text(text = "Stress: ", fontSize = 18.sp)
                 Text(
-                    text = logUiState.stress.toString(),
+                    text = logUiState.stress.toInt().toString(),
                     fontSize = 18.sp,
                     modifier = Modifier
                         .background(
@@ -187,7 +187,7 @@ fun LogInputForm(
             }
             Slider(
                 value = logUiState.stress,
-                onValueChange = { onLogValueChange(logUiState) },
+                onValueChange = { onLogValueChange(logUiState.copy(stress = it)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = true,
                 steps = 4,
@@ -206,7 +206,7 @@ fun LogInputForm(
             ){
                 Text(text = "Sleep quality: ", fontSize = 18.sp)
                 Text(
-                    text = logUiState.sleep.toString(),
+                    text = logUiState.sleep.toInt().toString(),
                     fontSize = 18.sp,
                     modifier = Modifier
                         .background(
@@ -218,7 +218,7 @@ fun LogInputForm(
             }
             Slider(
                 value = logUiState.sleep,
-                onValueChange = { onLogValueChange(logUiState) },
+                onValueChange = { onLogValueChange(logUiState.copy(sleep = it)) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = true,
                 steps = 4,
@@ -238,7 +238,7 @@ fun LogInputForm(
                 Text("Period")
                 Checkbox(
                     checked = logUiState.period,
-                    onCheckedChange = { onLogValueChange(logUiState) }
+                    onCheckedChange = { onLogValueChange(logUiState.copy(period = it)) }
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -248,7 +248,7 @@ fun LogInputForm(
                     .fillMaxWidth()
                     .padding(8.dp),
                 value = logUiState.journal,
-                onValueChange = { onLogValueChange(logUiState) },
+                onValueChange = { onLogValueChange(logUiState.copy(journal = it)) },
                 enabled = true,
                 singleLine = false,
                 maxLines = 4,
