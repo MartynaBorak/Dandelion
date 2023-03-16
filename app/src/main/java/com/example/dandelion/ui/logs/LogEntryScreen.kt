@@ -278,11 +278,3 @@ fun LogInputForm(
         }
     }
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun EntryLogPreview(){
-    DandelionTheme {
-        LogEntryScreen(navigateBack = {})
-    }
-}

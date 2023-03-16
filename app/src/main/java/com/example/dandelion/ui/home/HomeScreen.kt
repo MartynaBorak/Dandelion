@@ -97,12 +97,3 @@ fun HomeScreen(
         }
     }
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomeScreenPreview(
-){
-    DandelionTheme() {
-        HomeScreen(onTabSelected = {}, currentScreen = HomeDestination, navigateToLogEntry = { })
-    }
-}
