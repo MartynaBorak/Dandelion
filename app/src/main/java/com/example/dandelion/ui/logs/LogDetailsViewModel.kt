@@ -15,7 +15,7 @@ class LogDetailsViewModel(
     val uiState: StateFlow<LogUiState> = logsRepository.getLogStream(logId)
         .filterNotNull()
         .map {
-            it.toLogUiState(actionEnabled = true)
+            it.toLogUiState()
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),

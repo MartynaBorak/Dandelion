@@ -17,7 +17,7 @@ data class LogUiState(
     val day: String = "",
     val month: String = "",
     val year: String = "",
-    val actionEnabled: Boolean = false
+    val dateChangeEnabled: Boolean = true
 )
 
 fun LogUiState.toDayLog(): DayLog = DayLog(
@@ -31,7 +31,7 @@ fun LogUiState.toDayLog(): DayLog = DayLog(
     journal = journal
 )
 
-fun DayLog.toLogUiState(actionEnabled: Boolean = false): LogUiState = LogUiState(
+fun DayLog.toLogUiState(dateChangeEnabled: Boolean = true): LogUiState = LogUiState(
     id = id,
     dateString = convertToString(date),
     energy = energy.toFloat(),
@@ -40,7 +40,7 @@ fun DayLog.toLogUiState(actionEnabled: Boolean = false): LogUiState = LogUiState
     sleep = sleep.toFloat(),
     period = period,
     journal = journal,
-    actionEnabled = actionEnabled
+    dateChangeEnabled = dateChangeEnabled
 )
 
 fun LogUiState.isValid() : Boolean {

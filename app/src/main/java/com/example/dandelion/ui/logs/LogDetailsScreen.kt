@@ -23,7 +23,7 @@ object LogDetailsDestination : NavigationDestination {
 
 @Composable
 fun LogDetailsScreen(
-    navigateToEdit: () -> Unit,
+    navigateToEdit: (Int) -> Unit,
     navigateBack: () -> Unit,
     viewModel: LogDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
@@ -43,12 +43,12 @@ fun LogDetailsScreen(
             modifier = Modifier
                 .padding(8.dp)
         ) {
-            Text(text = uiState.value.dateString, fontSize = 18.sp)
+            Text(text = uiState.value.dateString, fontSize = 24.sp)
             Spacer(modifier = Modifier.height(4.dp))
             Divider()
 
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -60,7 +60,7 @@ fun LogDetailsScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -72,7 +72,7 @@ fun LogDetailsScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -84,7 +84,7 @@ fun LogDetailsScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -97,7 +97,7 @@ fun LogDetailsScreen(
             Divider()
 
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -107,7 +107,7 @@ fun LogDetailsScreen(
                 if(uiState.value.period) {
                     Text(text = "Yes", fontSize = 18.sp)
                 } else {
-                    Text(text = "Yes", fontSize = 18.sp)
+                    Text(text = "No", fontSize = 18.sp)
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))
@@ -130,14 +130,14 @@ fun LogDetailsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                verticalArrangement = Arrangement.SpaceAround
+                verticalArrangement = Arrangement.SpaceEvenly
             ){
                 Button(
-                    onClick = navigateToEdit,
+                    onClick = { navigateToEdit(uiState.value.id) },
                     enabled = true,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Save")
+                    Text("Edit")
                 }
                 OutlinedButton(
                     onClick = navigateBack,

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.dandelion.DandelionApplication
 import com.example.dandelion.ui.logs.HistoryViewModel
 import com.example.dandelion.ui.logs.LogDetailsViewModel
+import com.example.dandelion.ui.logs.LogEditViewModel
 import com.example.dandelion.ui.logs.LogEntryViewModel
 
 object AppViewModelProvider {
@@ -28,7 +29,12 @@ object AppViewModelProvider {
         }
 
         // Initializer for LogEditViewModel
-        //
+        initializer {
+            LogEditViewModel(
+                this.createSavedStateHandle(),
+                DandelionApplication().container.logsRepository
+            )
+        }
 
         // Initializer for LogDetailsViewModel
         initializer {

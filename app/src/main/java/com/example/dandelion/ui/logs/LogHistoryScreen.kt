@@ -60,7 +60,7 @@ fun LogHistoryScreen(
                     items = historyUiState.logsList,
                     key = { it.id }
                 ) {
-                    LogItem(log = it, onLogClick = {})
+                    LogItem(log = it, onLogClick = { navigateToDetails(it.id) })
                 }
             }
         }
@@ -71,7 +71,7 @@ fun LogHistoryScreen(
 @Composable
 fun LogItem(
     log: DayLog,
-    onLogClick: () -> Unit,
+    onLogClick: (DayLog) -> Unit,
     modifier: Modifier = Modifier
 ){
     Card(
@@ -79,7 +79,7 @@ fun LogItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(4.dp)
-            .clickable { onLogClick }
+            .clickable { onLogClick(log) }
     ) {
         Column(
             modifier = Modifier

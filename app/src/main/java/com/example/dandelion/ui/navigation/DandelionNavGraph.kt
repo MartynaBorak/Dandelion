@@ -1,5 +1,6 @@
 package com.example.dandelion.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,11 +56,22 @@ fun DandelionNavHost(
         ){
             LogDetailsScreen(
                 navigateBack = {navController.popBackStack()},
-                navigateToEdit = {}
+                navigateToEdit = {
+                    navController.navigate("${LogEditDestination.route}/${it}")
+                }
             )
         }
-        composable(route = LogEditDestination.route){
-            LogEditScreen()
+        composable(
+            route = LogEditDestination.routeWithArgs,
+            arguments = listOf(navArgument(LogEditDestination.logIdArg) {
+                type = NavType.IntType
+            })
+        ){
+            LogEditScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

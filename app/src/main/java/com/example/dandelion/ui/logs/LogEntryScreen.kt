@@ -1,5 +1,6 @@
 package com.example.dandelion.ui.logs
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,13 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -75,30 +70,32 @@ fun LogInputForm(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                OutlinedTextField(
-                    value = logUiState.day,
-                    onValueChange = { onLogValueChange(logUiState.copy(day=it)) },
-                    label = { Text("Day") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    modifier = Modifier.width(80.dp)
-                )
-                OutlinedTextField(
-                    value = logUiState.month,
-                    onValueChange = { onLogValueChange(logUiState.copy(month=it)) },
-                    label = { Text("Month") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    modifier = Modifier.width(80.dp)
-                )
-                OutlinedTextField(
-                    value = logUiState.year,
-                    onValueChange = { onLogValueChange(logUiState.copy(year=it)) },
-                    label = { Text("Year") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    modifier = Modifier.width(110.dp)
-                )
+                if(logUiState.dateChangeEnabled) {
+                    OutlinedTextField(
+                        value = logUiState.day,
+                        onValueChange = { onLogValueChange(logUiState.copy(day=it)) },
+                        label = { Text("Day") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        modifier = Modifier.width(80.dp)
+                    )
+                    OutlinedTextField(
+                        value = logUiState.month,
+                        onValueChange = { onLogValueChange(logUiState.copy(month=it)) },
+                        label = { Text("Month") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        modifier = Modifier.width(80.dp)
+                    )
+                    OutlinedTextField(
+                        value = logUiState.year,
+                        onValueChange = { onLogValueChange(logUiState.copy(year=it)) },
+                        label = { Text("Year") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        modifier = Modifier.width(110.dp)
+                    )
+                }
                 Text(text = logUiState.dateString, fontSize = 18.sp)
             }
             Spacer(modifier = Modifier.height(4.dp))
@@ -265,13 +262,13 @@ fun LogInputForm(
             ){
                 Button(
                     onClick = onSaveClick,
-                    enabled = logUiState.actionEnabled,
+                    enabled = true,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Save")
                 }
                 OutlinedButton(
-                    onClick = navigateBack,
+                    onClick = { navigateBack() },
                     enabled = true,
                     modifier = Modifier.fillMaxWidth()
                 ){

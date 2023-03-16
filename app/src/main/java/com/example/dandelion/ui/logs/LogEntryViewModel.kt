@@ -1,6 +1,5 @@
 package com.example.dandelion.ui.logs
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,10 +11,14 @@ class LogEntryViewModel(private val logsRepository: LogsRepository) : ViewModel(
         private set
 
     fun updateUiState(newLogUiState: LogUiState) {
-        logUiState = newLogUiState.copy( actionEnabled = newLogUiState.isValid() )
-        logUiState = logUiState.copy(dateString = buildDateString(
-            day = logUiState.day, month = logUiState.month, year = logUiState.year )
-        )
+        if(newLogUiState.isValid()) {
+            logUiState = newLogUiState.copy()
+            logUiState = logUiState.copy(
+                dateString = buildDateString(
+                    day = logUiState.day, month = logUiState.month, year = logUiState.year
+                )
+            )
+        }
     }
 
     suspend fun saveLog() {
