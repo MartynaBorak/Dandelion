@@ -93,10 +93,10 @@ fun LogInputForm(
                         label = { Text("Year") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         singleLine = true,
-                        modifier = Modifier.width(110.dp)
+                        modifier = Modifier.width(80.dp)
                     )
                 }
-                Text(text = logUiState.dateString, fontSize = 18.sp)
+                Text(text = logUiState.dateString, fontSize = 16.sp)
             }
             Spacer(modifier = Modifier.height(4.dp))
             Divider()

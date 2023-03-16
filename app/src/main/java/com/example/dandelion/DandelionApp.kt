@@ -24,6 +24,7 @@ import com.example.dandelion.ui.navigation.NavigationDestination
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.Surface
+import androidx.compose.ui.text.font.FontStyle
 import com.example.dandelion.ui.home.HomeDestination
 import com.example.dandelion.ui.logs.LogHistoryDestination
 
@@ -47,6 +48,7 @@ fun DandelionTopAppBar(
                             text = stringResource(id = R.string.app_name),
                             fontSize = 30.sp,
                             fontWeight = FontWeight.Bold,
+                            fontStyle = FontStyle.Italic,
                             color = Color.White,
                             modifier = Modifier
                                 .padding(start = 10.dp)
@@ -81,12 +83,12 @@ fun TabLayout(
             Tab(
                 selected = currentScreen==HomeDestination,
                 onClick = { onTabSelected(HomeDestination) },
-                text = { Text(HomeDestination.route) }
+                text = { Text("HOME") }
             )
             Tab(
                 selected = currentScreen==LogHistoryDestination,
                 onClick = { onTabSelected(LogHistoryDestination) },
-                text = { Text(LogHistoryDestination.route) }
+                text = { Text("HISTORY") }
             )
         }
     )
